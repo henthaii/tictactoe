@@ -1,0 +1,3 @@
+myGameboard {
+    placeholder
+}
