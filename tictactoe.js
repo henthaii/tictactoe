@@ -13,12 +13,24 @@ function Gameboard() {
     }
 
     const getBoard = () => board;
+
+    return {getBoard};
 }
 
 // Cell logic, this will show what should happen to the cell when you click on it and stuff
 
 function Cell() {
+    let value = "";
 
+    const addToken = (player) => {
+        value = player;
+    };
+
+    const getValue = () => value;
+    return {
+        addToken,
+        getValue,
+    };
 }
 
 // GameController will be how the game works
