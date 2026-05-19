@@ -27,6 +27,7 @@ function Cell() {
     };
 
     const getValue = () => value;
+
     return {
         addToken,
         getValue,
@@ -35,7 +36,28 @@ function Cell() {
 
 // GameController will be how the game works
 
-function GameController () {
+function GameController (
+    playerOneName = "Player One",
+    playerTwoName = "Player Two"
+) {
+    const board = Gameboard ();
+    
+    const players = [
+        {
+            name: playerOneName,
+            token: "x",
+        },
+        {
+            name: playerTwoName,
+            token: "o",
+        },
+    ];
+
+    let activePlayer = players [0];
+
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
 
 }
 
