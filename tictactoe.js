@@ -58,7 +58,53 @@ function GameController (
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
+    const getActivePlayer = () => activePlayer;
+
+    const printNewRound = () => {
+        board.printBoard();
+        console.log(`${getActivePlayer().name}'s turn.`);
+    };
+
+    // const playRound = (column) => {
+        
+    // }
+
+    printNewRound();
+
+    return { playRound, getActivePlayer, getBoard: board.getBoard};
+}
+
+function ScreenController() {
+    const game = GameController();
+    const playerTurnDiv = document.querySelector(".turn");
+    const boardDiv = document.querySelector(".board");
+
+    const updateScreen = () => {
+    // clear the board
+    boardDiv.textContent = "";
+
+    // get the newest version of the board and player turn
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
+
+    // Display player's turn
+    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+
+    // Render board squares
+    board.forEach((row) => {
+        row.forEach((cell, index) => {
+            // Anything clickable should be a button!!
+            const cellButton = document.createElement("button");
+            cellButton.classList.add("cell");
+            // Create a data attribute to identify the column
+            // This makes it easier to pass into our `playRound` function
+            cellButton.dataset.column = index;
+            cellButton.textContent = cell.getValue();
+            boardDiv.appendChild(cellButton);
+        });
+    });
+    };
 
 }
 
-const game = GameController();
+ScreenController();
