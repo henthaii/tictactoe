@@ -1,25 +1,10 @@
 // Gameboard is this an object? This will hold the logic below
 
 function Gameboard() {
-    const rows = 3;
-    const columns = 3;
-    const board = [];
+    
+    const board = ["","","","","","","","",""];
 
-    for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            board[i].push(Cell());
-        }
-    }
-
-    const getBoard = () => board;
-
-    const printBoard = () => {
-        const boardWithCellValues = board.map((row) =>
-        row.map((cell) => cell.getValue())
-        );
-        console.log(boardWithCellValues);
-    };        
+    const getBoard = () => board;      
 
     return {getBoard};
 
@@ -116,7 +101,10 @@ function ScreenController() {
         });
     });
     };
+}
 
+function clickHandlerBoard(e) {
+    const selectCell
 }
 
 ScreenController();
