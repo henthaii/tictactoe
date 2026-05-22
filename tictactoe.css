@@ -3,9 +3,9 @@ body {
 }
 
 .container {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
-    padding: 5px;
+    padding: 5px; */
     border: black 1px solid;
 }

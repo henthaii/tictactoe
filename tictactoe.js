@@ -2,13 +2,20 @@
 
 function Gameboard() {
     
-    const board = ["","","","","","","","",""];
+    const board = [
+        ["","",""],
+        ["","",""],
+        ["","",""]
+    ];
 
     const getBoard = () => board;      
 
     return {getBoard};
 
 }
+
+const testGameboard = Gameboard();
+console.log(testGameboard.getBoard());
 
 // Cell logic, this will show what should happen to the cell when you click on it and stuff
 
@@ -33,7 +40,7 @@ function GameController (
     playerOneName = "Player One",
     playerTwoName = "Player Two"
 ) {
-    const board = Gameboard ();
+    const board = Gameboard();
     
     const players = [
         {
@@ -51,7 +58,7 @@ function GameController (
     const switchPlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
-    
+
     const getActivePlayer = () => activePlayer;
 
     const printNewRound = () => {
@@ -59,13 +66,12 @@ function GameController (
         console.log(`${getActivePlayer().name}'s turn.`);
     };
 
-    // const playRound = (column) => {
-        // console.log(
-        // `${getActivePlayer().name}'s has selected ${column} ${row}...`);s
-    // };
+    const playRound = () => {
+    };
 
-    switchPlayer();
+    
     printNewRound();
+    switchPlayer();
 
     return {playRound, getActivePlayer, getBoard: board.getBoard};
 }
@@ -99,7 +105,7 @@ function ScreenController() {
 //             boardDiv.appendChild(cellButton);
 //         });
 //     });
-//     };
+    };
 }
 
 function clickHandlerBoard(e) {
