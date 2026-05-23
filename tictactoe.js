@@ -8,6 +8,11 @@ function Gameboard() {
         ["","",""]
     ];
 
+    // Personal note, grid will be referred as board[rowIndex][columnIndex]
+    // ex: board[0][0], [0][1], [0][2]
+    // [1][0], [1][1], [1][2]
+    // [2][0], [2][1], [2][2]
+
     const getBoard = () => board;      
 
     return {getBoard};
@@ -67,11 +72,9 @@ function GameController (
     };
 
     const playRound = () => {
+        printNewRound();
+        switchPlayer();
     };
-
-    
-    printNewRound();
-    switchPlayer();
 
     return {playRound, getActivePlayer, getBoard: board.getBoard};
 }
@@ -82,34 +85,34 @@ function ScreenController() {
     const boardDiv = document.querySelector(".container");
 
     const updateScreen = () => {
-    // clear the board
-    boardDiv.textContent = "";
+        // clear the board
+        boardDiv.textContent = "";
 
-    // get the newest version of the board and player turn
-    const board = game.getBoard();
-    const activePlayer = game.getActivePlayer();
+        // get the newest version of the board and player turn
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
 
-    // Display player's turn
-    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+        // Display player's turn
+        playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
 
-//     // Render board squares
-//     board.forEach((row) => {
-//         row.forEach((cell, index) => {
-//             // Anything clickable should be a button!!
-//             const cellButton = document.createElement("button");
-//             cellButton.classList.add("cell");
-//             // Create a data attribute to identify the column
-//             // This makes it easier to pass into our `playRound` function
-//             cellButton.dataset.column = index;
-//             cellButton.textContent = cell.getValue();
-//             boardDiv.appendChild(cellButton);
-//         });
-//     });
+        // Render board squares
+        board.forEach((row) => {
+            row.forEach((cell, index) => {
+                // Anything clickable should be a button!!
+                const cellButton = document.createElement("button");
+                cellButton.classList.add("cell");
+                // Create a data attribute to identify the column
+                // This makes it easier to pass into our `playRound` function
+                cellButton.dataset.column = index;
+                cellButton.textContent = cell.getValue();
+                boardDiv.appendChild(cellButton);
+            });
+        });
     };
 }
 
 function clickHandlerBoard(e) {
-    const selectCell
+    const selectCell = document.querySelect
 }
 
 ScreenController();
