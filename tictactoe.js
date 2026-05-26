@@ -25,20 +25,20 @@ function Gameboard() {
 
 // Cell logic, this will show what should happen to the cell when you click on it and stuff
 
-function Cell() {
-    let value = "";
+// function Cell() {
+//     let value = "";
 
-    const addToken = (player) => {
-        value = player;
-    };
+//     const addToken = (player) => {
+//         value = player;
+//     };
 
-    const getValue = () => value;
+//     const getValue = () => value;
 
-    return {
-        addToken,
-        getValue,
-    };
-}
+//     return {
+//         addToken,
+//         getValue,
+//     };
+// }
 
 // GameController will be how the game works
 
@@ -81,22 +81,27 @@ function GameController (
 }
 
 function gameWinner() {
-    // if the following cells combinations are filled, then respective player wins
-    // verticals
-    // [0 0], [0 1], [0 2]
-    // [1 0], [1 1], [1 2]
-    // [2 0], [2 1], [2 2]
-    // horizontals
-    // [0 0], [1 0], [2 0]
-    // [0 1], [1 1], [2 1]
-    // [0 2], [1 2], [2 2]
-    // diagonals
-    // [0 0], [1 1], [2 2]
-    // [0 2], [1 1], [2 0]
-
+    const winningCombos = [
+        // Vertical
+        [[0, 0], [0, 1], [0, 2]],
+        [[1, 0], [1, 1], [1, 2]],
+        [[2, 0], [2, 1], [2, 2]],
+        // Horizontal
+        [[0, 0], [1, 0], [2, 0]],
+        [[0, 1], [1, 1], [2, 1]],
+        [[0, 2], [1, 2], [2, 2]],
+        // Diagonal
+        [[0, 0], [1, 1], [2, 2]],
+        [[0, 2], [1, 1], [2, 0]],
+    ];
     // board needs to check which of the tokens populate the cells
     // cells need to have matching token WITH combination above to win
-    // if entire board is filled, game will end with draw
+    // if entire board is filled, game will end with draw (should this go with event handler)
+
+    // need to include current state of the board
+    if (winningCombos = "x" || "o") {
+        return (`${getActivePlayer}`);
+    }
 }
 
 function ScreenController() {
@@ -136,11 +141,15 @@ function ScreenController() {
 function clickHandlerBoard(e) {
     const selectCell = document.querySelect("button");
     selectCell.addEventListener("click", (event) => {
+        // if the cell is blank, then it can populate
         // depending on active player, cell/button will populate with token "x" or "o"
         // needs to check winner
         // if no winner, then continue with game
-    }
+        // if 
         
+    }    
+        
+    
     )
 
 }
