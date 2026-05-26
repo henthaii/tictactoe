@@ -9,7 +9,8 @@ function Gameboard() {
     ];
 
     // Personal note, grid will be referred as board[rowIndex][columnIndex]
-    // ex: board[0][0], [0][1], [0][2]
+    // ex: board
+    // [0][0], [0][1], [0][2]
     // [1][0], [1][1], [1][2]
     // [2][0], [2][1], [2][2]
 
@@ -19,8 +20,8 @@ function Gameboard() {
 
 }
 
-const testGameboard = Gameboard();
-console.log(testGameboard.getBoard());
+// const testGameboard = Gameboard();
+// console.log(testGameboard.getBoard());
 
 // Cell logic, this will show what should happen to the cell when you click on it and stuff
 
@@ -79,6 +80,25 @@ function GameController (
     return {playRound, getActivePlayer, getBoard: board.getBoard};
 }
 
+function gameWinner() {
+    // if the following cells combinations are filled, then respective player wins
+    // verticals
+    // [0 0], [0 1], [0 2]
+    // [1 0], [1 1], [1 2]
+    // [2 0], [2 1], [2 2]
+    // horizontals
+    // [0 0], [1 0], [2 0]
+    // [0 1], [1 1], [2 1]
+    // [0 2], [1 2], [2 2]
+    // diagonals
+    // [0 0], [1 1], [2 2]
+    // [0 2], [1 1], [2 0]
+
+    // board needs to check which of the tokens populate the cells
+    // cells need to have matching token WITH combination above to win
+    // if entire board is filled, game will end with draw
+}
+
 function ScreenController() {
     const game = GameController();
     // const playerTurnDiv = document.querySelector(".turn");
@@ -103,16 +123,26 @@ function ScreenController() {
                 cellButton.classList.add("cell");
                 // Create a data attribute to identify the column
                 // This makes it easier to pass into our `playRound` function
-                cellButton.dataset.column = index;
-                cellButton.textContent = cell.getValue();
+                cellButton.dataset.column = index; // i think i remove this
+                cellButton.textContent = cell.getValue(); // i think this too
                 boardDiv.appendChild(cellButton);
             });
         });
     };
 }
 
+
+
 function clickHandlerBoard(e) {
-    const selectCell = document.querySelect
+    const selectCell = document.querySelect("button");
+    selectCell.addEventListener("click", (event) => {
+        // depending on active player, cell/button will populate with token "x" or "o"
+        // needs to check winner
+        // if no winner, then continue with game
+    }
+        
+    )
+
 }
 
 ScreenController();
