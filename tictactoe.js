@@ -14,31 +14,23 @@ function Gameboard() {
     // [1][0], [1][1], [1][2]
     // [2][0], [2][1], [2][2]
 
-    const getBoard = () => board;      
+    const getBoard = () => board; 
 
-    return {getBoard};
+    // need a const that will place token in spots
+    
+    const printBoard = () => {
+        const formattedBoard = board.map((row) =>
+            row.map((cell) => cell.getValue())
+        );
+        console.log(boardWithCellValues);
+    };
+
+    return {getBoard, printBoard};
 
 }
 
 // const testGameboard = Gameboard();
 // console.log(testGameboard.getBoard());
-
-// Cell logic, this will show what should happen to the cell when you click on it and stuff
-
-// function Cell() {
-//     let value = "";
-
-//     const addToken = (player) => {
-//         value = player;
-//     };
-
-//     const getValue = () => value;
-
-//     return {
-//         addToken,
-//         getValue,
-//     };
-// }
 
 // GameController will be how the game works
 
@@ -72,10 +64,12 @@ function GameController (
         console.log(`${getActivePlayer().name}'s turn.`);
     };
 
-    const playRound = () => {
+    const playRound = (row,column) => {
         printNewRound();
         switchPlayer();
     };
+
+    printNewRound();
 
     return {playRound, getActivePlayer, getBoard: board.getBoard};
 }
@@ -98,8 +92,8 @@ function gameWinner() {
     // cells need to have matching token WITH combination above to win
     // if entire board is filled, game will end with draw (should this go with event handler)
 
-    // need to include current state of the board
-    if (winningCombos = "x" || "o") {
+    // need to include current state of the board (what is state of board)
+    if (getBoard = (winningCombos = "x" || "o")) {
         return (`${getActivePlayer}`);
     }
 }
