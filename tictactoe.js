@@ -17,20 +17,22 @@ function Gameboard() {
     const getBoard = () => board; 
 
     // need a const that will place token in spots
+
+    const placeToken = (row, column, player) => {
+        if (board[row][column] === "") {
+            board[row][column] = player;
+            return true;
+        }
+        return false;
+    };
     
     const printBoard = () => {
-        const formattedBoard = board.map((row) =>
-            row.map((cell) => cell.getValue())
-        );
-        console.log(boardWithCellValues);
+        const formattedBoard = board.map((row) => row.join(" ")).join("\n");
+        console.log(formattedBoard);
     };
 
-    return {getBoard, printBoard};
-
+    return {getBoard, placeToken, printBoard};
 }
-
-// const testGameboard = Gameboard();
-// console.log(testGameboard.getBoard());
 
 // GameController will be how the game works
 
@@ -65,8 +67,14 @@ function GameController (
     };
 
     const playRound = (row,column) => {
-        printNewRound();
+        const moveSuccessful = board.placeToken(row, column, getActivePlayer().token);
+        if (!moveSuccessful) {
+            console.log("Invalid move! Try again.");
+            return;
+        }
+        console.log(`Dropping ${getActivePlayer().name}'s token into row ${row}, column ${column}...`);
         switchPlayer();
+        printNewRound();
     };
 
     printNewRound();
