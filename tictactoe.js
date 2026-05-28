@@ -61,6 +61,35 @@ function GameController (
 
     const getActivePlayer = () => activePlayer;
 
+    const checkWinner = () => {
+        const winningCombos = [
+            // Rows
+            [[0, 0], [0, 1], [0, 2]],
+            [[1, 0], [1, 1], [1, 2]],
+            [[2, 0], [2, 1], [2, 2]],
+            // Columns
+            [[0, 0], [1, 0], [2, 0]],
+            [[0, 1], [1, 1], [2, 1]],
+            [[0, 2], [1, 2], [2, 2]],
+            // Diagonal
+            [[0, 0], [1, 1], [2, 2]],
+            [[0, 2], [1, 1], [2, 0]],
+        ];
+
+        for (const combo of winningCombos) {
+            const [a, b, c] = combo;
+                
+            const tokenA = board[a[0]][a[1]];
+            const tokenB = board[b[0]][b[1]];
+            const tokenC = board[c[0]][c[1]];
+
+            if (tokenA !== "" && tokenA === tokenB && tokenA === tokenC) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     const printNewRound = () => {
         board.printBoard();
         console.log(`${getActivePlayer().name}'s turn.`);
@@ -80,30 +109,6 @@ function GameController (
     printNewRound();
 
     return {playRound, getActivePlayer, getBoard: board.getBoard};
-}
-
-function gameWinner() {
-    const winningCombos = [
-        // Vertical
-        [[0, 0], [0, 1], [0, 2]],
-        [[1, 0], [1, 1], [1, 2]],
-        [[2, 0], [2, 1], [2, 2]],
-        // Horizontal
-        [[0, 0], [1, 0], [2, 0]],
-        [[0, 1], [1, 1], [2, 1]],
-        [[0, 2], [1, 2], [2, 2]],
-        // Diagonal
-        [[0, 0], [1, 1], [2, 2]],
-        [[0, 2], [1, 1], [2, 0]],
-    ];
-    // board needs to check which of the tokens populate the cells
-    // cells need to have matching token WITH combination above to win
-    // if entire board is filled, game will end with draw (should this go with event handler)
-
-    // need to include current state of the board (what is state of board)
-    if (getBoard = (winningCombos = "x" || "o")) {
-        return (`${getActivePlayer}`);
-    }
 }
 
 function ScreenController() {
@@ -148,7 +153,6 @@ function clickHandlerBoard(e) {
         // needs to check winner
         // if no winner, then continue with game
         // if 
-        
     }    
         
     
