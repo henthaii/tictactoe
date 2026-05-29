@@ -1,4 +1,4 @@
-// Gameboard is this an object? This will hold the logic below
+// Gameboard will hold the skeleton of the game
 
 function Gameboard() {
     
@@ -8,15 +8,7 @@ function Gameboard() {
         ["","",""]
     ];
 
-    // Personal note, grid will be referred as board[rowIndex][columnIndex]
-    // ex: board
-    // [0][0], [0][1], [0][2]
-    // [1][0], [1][1], [1][2]
-    // [2][0], [2][1], [2][2]
-
     const getBoard = () => board; 
-
-    // need a const that will place token in spots
 
     const placeToken = (row, column, player) => {
         if (board[row][column] === "") {
@@ -55,11 +47,15 @@ function GameController (
 
     let activePlayer = players[0];
 
+    let gameStatus = "active"
+
     const switchPlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
     const getActivePlayer = () => activePlayer;
+
+    const getStatus = () => gameStatus;
 
     const checkWinner = () => {
         const winningCombos = [
@@ -75,15 +71,15 @@ function GameController (
             [[0, 0], [1, 1], [2, 2]],
             [[0, 2], [1, 1], [2, 0]],
         ];
-        
-        const currentGrid = board.getBoard();
+
+        const currentBoard = board.getBoard();
 
         for (const combo of winningCombos) {
             const [a, b, c] = combo;
                 
-            const tokenA = board[a[0]][a[1]];
-            const tokenB = board[b[0]][b[1]];
-            const tokenC = board[c[0]][c[1]];
+            const tokenA = currentBoard[a[0]][a[1]];
+            const tokenB = currentBoard[b[0]][b[1]];
+            const tokenC = currentBoard[c[0]][c[1]];
 
             if (tokenA !== "" && tokenA === tokenB && tokenA === tokenC) {
                 return true;
@@ -102,22 +98,21 @@ function GameController (
     };
 
     const playRound = (row,column) => {
-        
+        if (gameStatus !== "active") return;
+
         const moveSuccessful = board.placeToken(row, column, getActivePlayer().token);
 
-        if (!moveSuccessful) {
-            console.log("Invalid move! Try again.");
-            return;
-        }
+        if (!moveSuccessful) return;
+
         console.log(`Dropping ${getActivePlayer().name}'s token into row ${row}, column ${column}...`);
 
         if (checkWinner()) {
-            console.log(`Congratulations! ${getActivePlayer().name} wins the game!`);
+            gameStatus = "win";
             return;
         }
 
         if (checkTie()) {
-            console.log("It's a tie!");
+            gameStatus = "tie";
             return;
         }    
 
@@ -127,55 +122,52 @@ function GameController (
 
     printNewRound();
 
-    return {playRound, getActivePlayer, getBoard: board.getBoard};
+    return {playRound, getActivePlayer, getBoard: board.getBoard, getStatus};
 }
+
+// ScreenController will be where the input happens and display shown.
 
 function ScreenController() {
     const game = GameController();
-    // const playerTurnDiv = document.querySelector(".turn");
+    const playerTurnDiv = document.querySelector(".turn");
     const boardDiv = document.querySelector(".container");
 
     const updateScreen = () => {
-        // clear the board
         boardDiv.textContent = "";
-
-        // get the newest version of the board and player turn
+        
         const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
-
-        // Display player's turn
+        
         playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
-
-        // Render board squares
-        board.forEach((row) => {
-            row.forEach((cell, index) => {
-                // Anything clickable should be a button!!
+        
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
-                // Create a data attribute to identify the column
-                // This makes it easier to pass into our `playRound` function
-                cellButton.dataset.column = index; // i think i remove this
-                cellButton.textContent = cell.getValue(); // i think this too
+               
+                cellButton.dataset.row = rowIndex;
+                cellButton.dataset.column = columnIndex;
+
+                cellButton.textContent = cell
                 boardDiv.appendChild(cellButton);
             });
         });
     };
-}
-
-
-
-function clickHandlerBoard(e) {
-    const selectCell = document.querySelect("button");
-    selectCell.addEventListener("click", (event) => {
-        // if the cell is blank, then it can populate
-        // depending on active player, cell/button will populate with token "x" or "o"
-        // needs to check winner
-        // if no winner, then continue with game
-        // if 
-    }    
+    const clickHandlerBoard = (e) => {
+        const selectedRow = e.target.dataset.row;
+        const selectedColumn = e.target.dataset.column;
         
-    
-    )
+        if (selectedRow === undefined || selectedColumn === undefined) return;
+        
+        game.playRound(parseInt(selectedRow), parseInt(selectedColumn));
+        
+        updateScreen();
+    };
+
+  boardDiv.addEventListener("click", clickHandlerBoard);
+
+  updateScreen();
 
 }
 
