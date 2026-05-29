@@ -75,6 +75,8 @@ function GameController (
             [[0, 0], [1, 1], [2, 2]],
             [[0, 2], [1, 1], [2, 0]],
         ];
+        
+        const currentGrid = board.getBoard();
 
         for (const combo of winningCombos) {
             const [a, b, c] = combo;
@@ -88,7 +90,11 @@ function GameController (
             }
         }
         return false;
-    }
+    };
+
+    const checkTie = () => {
+        return board.getBoard().flat().every((cell) => cell !== "");
+    };
 
     const printNewRound = () => {
         board.printBoard();
@@ -96,12 +102,25 @@ function GameController (
     };
 
     const playRound = (row,column) => {
+        
         const moveSuccessful = board.placeToken(row, column, getActivePlayer().token);
+
         if (!moveSuccessful) {
             console.log("Invalid move! Try again.");
             return;
         }
         console.log(`Dropping ${getActivePlayer().name}'s token into row ${row}, column ${column}...`);
+
+        if (checkWinner()) {
+            console.log(`Congratulations! ${getActivePlayer().name} wins the game!`);
+            return;
+        }
+
+        if (checkTie()) {
+            console.log("It's a tie!");
+            return;
+        }    
+
         switchPlayer();
         printNewRound();
     };
