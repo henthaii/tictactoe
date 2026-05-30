@@ -137,26 +137,35 @@ function ScreenController() {
         
         const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
+        const status = game.getStatus();
         
-        playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+        // playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
         
+        if (status === "win") {
+            playerTurnDiv.textContent = `${activePlayer.name} wins!`;
+        } else if (status === "tie") {
+            playerTurnDiv.textContent = "It's a tie!";
+        } else {
+            playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+        }
+
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
-                
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
-               
                 cellButton.dataset.row = rowIndex;
                 cellButton.dataset.column = columnIndex;
-
                 cellButton.textContent = cell
                 boardDiv.appendChild(cellButton);
             });
         });
     };
     const clickHandlerBoard = (e) => {
-        const selectedRow = e.target.dataset.row;
-        const selectedColumn = e.target.dataset.column;
+        const selectedButton = e.target.closest("button");
+        if (!selectedButton) return;
+
+        const selectedRow = selectedButton.dataset.row;
+        const selectedColumn = selectedButton.dataset.column;
         
         if (selectedRow === undefined || selectedColumn === undefined) return;
         
@@ -166,9 +175,7 @@ function ScreenController() {
     };
 
   boardDiv.addEventListener("click", clickHandlerBoard);
-
   updateScreen();
-
 }
 
 ScreenController();
